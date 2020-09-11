@@ -22,6 +22,9 @@ import json
 JSONLanguage = 0
 N1QLLanguage = 1
 
+ValueIndex = 0
+FullTextIndex = 1
+
 class Query (CBLObject):
 
     def __init__(self, database, queryString, language = N1QLLanguage):
@@ -158,6 +161,47 @@ class QueryResult (object):
                 result[keys[i]] = decodeFleece(item)
         return result
 
+
+def createIndex(database, name, index_spec):
+    if index_spec != None:
+        index_spec = index_spec._cblConfig()
+    
+    success = lib.CBLDatabase_CreateIndex(database._ref, cstr(name), index_spec[0], gError)
+    if not success:
+        raise CBLException("Index creation failed", gError)
+
+def deleteIndex(database, name):    
+    success = lib.CBLDatabase_DeleteIndex(database._ref, cstr(name),gError)
+    if not success:
+        raise CBLException("Index deletion failed", gError)
+
+# TODO - this is returning an empty array
+def listIndexNames(database):    
+    mutable_array = lib.CBLDatabase_IndexNames(database._ref)
+    array = lib.FLMutableArray_GetSource(mutable_array)
+    return decodeFleece(array)
+    
+
+class IndexSpec:
+    def __init__(self, key_expressions, is_value_index = True, ignore_accents = False, language = None):
+        if is_value_index:
+            self.type = ValueIndex
+        else:
+            self.type = FullTextIndex
+        if language is None:
+            self.language = ffi.NULL
+        else:
+            self.language = cstr(language)
+        
+        self.key_expressions_json = cstr(encodeJSON(key_expressions))
+        self.ignore_accents = ignore_accents
+
+    def _cblConfig(self):
+        return ffi.new("CBLIndexSpec*",
+                       [self.type,
+                        self.key_expressions_json,
+                        self.ignore_accents,
+                        self.language])
 
 
 @ffi.def_extern()
