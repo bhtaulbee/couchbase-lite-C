@@ -133,6 +133,7 @@ double FLValue_AsDouble(FLValue);
 FLString FLValue_AsString(FLValue);
 FLArray FLValue_AsArray(FLValue);
 FLDict FLValue_AsDict(FLValue);
+FLArray FLMutableArray_GetSource(FLMutableArray);
 
 typedef struct { ...; } FLArrayIterator;
 uint32_t FLArray_Count(FLArray);
