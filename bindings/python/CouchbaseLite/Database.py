@@ -61,6 +61,15 @@ class Database (CBLObject):
         if not lib.CBLDatabase_Delete(self._ref, gError):
             raise CBLException("Couldn't delete database", gError)
 
+    def copy(self, to_path, to_name):
+        config = DatabaseConfiguration(to_path)
+        config = config._cblConfig()
+
+        from_path = self.getPath()
+
+        if not lib.CBL_CopyDatabase(cstr(from_path), cstr(to_name), config, gError):
+            raise CBLException("Couldn't copy database", gError)
+
     @staticmethod
     def deleteFile(name, dir):
         if lib.CBL_DeleteDatabase(cstr(name), cstr(dir), gError):
