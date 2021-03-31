@@ -258,7 +258,6 @@ CBLDatabase* CBLDatabase_Open(const char *name,
                          CBLError* error);
 bool CBLDatabase_Close(CBLDatabase*, CBLError*);
 bool CBLDatabase_Delete(CBLDatabase*, CBLError*);
-bool CBLDatabase_Compact(CBLDatabase*, CBLError*);
 bool CBLDatabase_BeginBatch(CBLDatabase*, CBLError*);
 bool CBLDatabase_EndBatch(CBLDatabase*, CBLError*);
 const char* CBLDatabase_Name(const CBLDatabase*);
