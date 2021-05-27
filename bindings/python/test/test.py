@@ -24,7 +24,9 @@ import json
 
 Database.deleteFile("db", "/tmp")
 
-db = Database("db", DatabaseConfiguration("/tmp"))
+key = bytes(32)
+print(key)
+db = Database("db", DatabaseConfiguration(directory="/tmp", encryption_key=key))
 
 print ("db   = ", db)
 print ("name = ", db.name)

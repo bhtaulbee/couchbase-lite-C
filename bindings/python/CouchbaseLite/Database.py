@@ -23,7 +23,7 @@ from .common import *
 from .Document import *
 
 class DatabaseConfiguration:
-    def __init__(self, directory, create = True, readOnly = False, noUpgrade = False):
+    def __init__(self, directory, create = True, readOnly = False, noUpgrade = False, encryption_key = None):
         self.directory = directory
         self._flags = 0
         if create:
@@ -33,9 +33,15 @@ class DatabaseConfiguration:
         if noUpgrade:
             self._flags |= lib.kCBLDatabase_NoUpgrade
 
+        if encryption_key:
+            self._encryption_key = ffi.new("CBLEncryptionKey*", [lib.kCBLEncryptionAES256 , encryption_key])
+        else:
+            self._encryption_key = ffi.NULL
+
+
     def _cblConfig(self):
         self._cblDir = cstr(self.directory)  # to keep string from being GC'd
-        return ffi.new("CBLDatabaseConfiguration*", [self._cblDir, self._flags])
+        return ffi.new("CBLDatabaseConfiguration*", [self._cblDir, self._flags, self._encryption_key])
 
     def __repr__(self):
         return "DatabaseConfiguration['" + self.directory + "']"
