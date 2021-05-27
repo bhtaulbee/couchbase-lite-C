@@ -197,16 +197,30 @@ typedef enum {
     kCBLDatabase_NoUpgrade     = 4,  ///< Disable upgrading an older-version database
 } CBLDatabaseFlags;
 
+typedef enum {
+    kCBLEncryptionNone = 0,
+    kCBLEncryptionAES256
+} CBLEncryptionAlgorithm;
+
+typedef enum {
+    kCBLEncryptionKeySizeAES256 = 32
+} CBLEncryptionKeySize;
+
+typedef struct {
+    CBLEncryptionAlgorithm algorithm;
+    uint8_t bytes[32];
+} CBLEncryptionKey;
+
 typedef struct {
     const char *directory;
     CBLDatabaseFlags flags;
-    ...;
+    CBLEncryptionKey* encryptionKey;
 } CBLDatabaseConfiguration;
 
 typedef struct {
     FLString directory;
     CBLDatabaseFlags flags;
-    ...;
+    CBLEncryptionKey* encryptionKey;
 } CBLDatabaseConfiguration_s;
 
 void CBLListener_Remove(CBLListenerToken*);

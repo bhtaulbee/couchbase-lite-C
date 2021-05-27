@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
-option(BUILD_ENTERPRISE "Set whether or not to build enterprise edition" OFF)
+option(BUILD_ENTERPRISE "Set whether or not to build enterprise edition" ON)
 
 if(CMAKE_COMPILER_IS_GNUCC)
     # Suppress an annoying note about GCC 7 ABI changes

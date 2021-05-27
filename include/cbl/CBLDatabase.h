@@ -43,9 +43,9 @@ typedef CBL_OPTIONS(uint32_t, CBLDatabaseFlags) {
 /** Database encryption algorithms (available only in the Enterprise Edition). */
 typedef CBL_ENUM(uint32_t, CBLEncryptionAlgorithm) {
     kCBLEncryptionNone = 0,      ///< No encryption (default)
-#ifdef COUCHBASE_ENTERPRISE
+// #ifdef COUCHBASE_ENTERPRISE
     kCBLEncryptionAES256,        ///< AES with 256-bit key
-#endif
+// #endif
 };
 
 /** Encryption key sizes (in bytes). */
